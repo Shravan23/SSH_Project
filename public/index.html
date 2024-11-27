@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Terminal Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
+</head>
+<body>
+    <div id="app">
+        <div class="container-controls">
+            <button id="createContainer">Create Container</button>
+            <div id="containerStatus">No container running</div>
+        </div>
+        <div id="container-list" class="container-list">
+            <h3>Available Containers</h3>
+            <!-- Containers will be listed here -->
+        </div>
+        <div id="terminal"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
