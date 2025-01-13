@@ -86,3 +86,62 @@ Before you begin, ensure you have the following installed:
 ## Common Commands
 
 Once connected to a container, you can use standard Linux commands: 
+
+
+
+
+
+
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Auth as Authentication Service
+    participant WebApp as Web Application (Frontend)
+    participant Backend as Backend API (Express/Node.js)
+    participant Docker as Docker Engine
+    participant Kubernetes as Kubernetes Cluster
+    participant Metrics as Metrics & Monitoring (Prometheus)
+
+    %% User Authentication
+    User->>WebApp: Log In
+    WebApp->>Auth: Validate Credentials
+    Auth-->>WebApp: Token Issued
+    WebApp-->>User: Authentication Successful
+
+    %% Container Creation
+    User->>WebApp: Click "Create Container"
+    WebApp->>Backend: POST /create
+    Backend->>Docker: Create and Start Container
+    Docker->>Kubernetes: Register Container in Cluster
+    Kubernetes-->>Docker: Orchestrate Container
+    Docker-->>Backend: Container ID and Status
+    Backend-->>WebApp: Container Created (Container ID)
+
+    %% Terminal Interaction
+    User->>WebApp: Open Terminal
+    WebApp->>Backend: Establish WebSocket Connection
+    Backend->>Docker: Create Exec Session
+    Docker-->>Backend: Session Established
+    User->>WebApp: Type Command
+    WebApp->>Backend: Send Command via WebSocket
+    Backend->>Docker: Execute Command in Container
+    Docker-->>Backend: Return Command Output
+    Backend-->>WebApp: Stream Output to Terminal
+    WebApp-->>User: Display Command Output
+
+    %% Container Deletion
+    User->>WebApp: Click "Delete Container"
+    WebApp->>Backend: POST /delete?containerID
+    Backend->>Docker: Stop and Remove Container
+    Kubernetes->>Docker: Deregister Container from Cluster
+    Docker-->>Backend: Container Deleted
+    Backend-->>WebApp: Deletion Successful
+
+    %% Metrics Monitoring
+    Kubernetes->>Metrics: Send Resource Usage Data
+    Docker->>Metrics: Send Logs and Metrics
+    WebApp->>Metrics: Request Metrics Data
+    Metrics-->>WebApp: Resource Usage and Logs
+    WebApp-->>User: Display Metrics Dashboard
+```
